@@ -7,6 +7,7 @@
       <HomeCategory></HomeCategory>
       <!-- 轮播图 -->
       <HomeBanner></HomeBanner>
+      <div>  这是 test 分支的代码 </div>
     </div>
   </div>
 </template>
