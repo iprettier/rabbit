@@ -11,5 +11,5 @@ export const fiindBrands = (limit = 6) => {
 }
 
 export const findBanner = () => {
-
+  return request('/home/')
 }
