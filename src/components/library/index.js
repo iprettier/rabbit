@@ -8,10 +8,12 @@
 // 导出一个 有 install 方法的对象，默认传入了 app 应用实例，在 Vue 的基础上扩展东西
 
 import XtxSkeleton from './xtx-skeleton'
+import XtxCarousel from './xtx-carousel'
 export default {
   install (app) {
     // 在 app 上进行扩展,app 提供 component 方法，directive 方法
     // 如果想挂载原型，app.config.globalProperties
     app.component(XtxSkeleton.name, XtxSkeleton)
+    app.component(XtxCarousel.name, XtxCarousel)
   }
 }
