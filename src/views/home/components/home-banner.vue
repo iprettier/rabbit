@@ -1,12 +1,22 @@
 <template>
   <div class="home-banner">
-    <XtxCarousel></XtxCarousel>
+    <XtxCarousel :slideers="slideers"></XtxCarousel>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+import { findBanner } from '@/api/home'
 export default {
-  name: 'HomeBanner'
+  name: 'HomeBanner',
+  setup() {
+    // 获取轮播图数据
+    const slideers = ref([])
+    findBanner().then(data => {
+      slideers.value = data.result
+    })
+    return { slideers }
+  }
 }
 </script>
 

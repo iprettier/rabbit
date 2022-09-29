@@ -1,30 +1,46 @@
 <template>
   <div class="xtx-carousel">
     <ul class="carousel-body">
-      <li class="carousel-item fade">
+      <li class="carousel-item" v-for="(item,i) in slideers" :key="item.id" :class="{fade:index===i}">
         <RouterLink to="/">
           <img
-            src="http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-15/1ba86bcc-ae71-42a3-bc3e-37b662f7f07e.jpg"
+            :src="item.imgUrl"
             alt=""
           />
         </RouterLink>
       </li>
     </ul>
+    <!-- 上一张 -->
     <a href="javascript:;" class="carousel-btn prev">
       <i class="iconfont icon-angle-left"></i>
     </a>
+    <!-- 下一张 -->
     <a href="javascript:;" class="carousel-btn next">
       <i class="iconfont icon-angle-right"></i>
     </a>
+    <!-- 指示器 -->
     <div class="carousel-indicator">
-      <span v-for="i in 5" :key="i"></span>
+      <!-- 激活点 -->
+      <span v-for="(item,i) in slideers" :key="i" :class="{active:index===i}"></span>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
-  name: 'XtxCarousel'
+  name: 'XtxCarousel',
+  props: {
+    slideers: {
+      type: Array,
+      default: []
+    }
+  },
+  setup() {
+    // 控制显示图片的索引
+    const index = ref(0)
+    return { index }
+  }
 }
 </script>
 
