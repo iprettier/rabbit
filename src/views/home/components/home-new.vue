@@ -3,14 +3,17 @@
     <HomePanel title="新鲜好物" subTitle="新鲜出炉 品质靠谱">
       <template #right><XtxMore path="/"></XtxMore></template>
       <!-- 面板内容 -->
-      <ul class="goods-list">
-        <li v-for="item in goods" :key="item.id">
-        <router-link to="">
-            <img :src="item.picture" alt="">
-            <p class="name ellipsis">{{ item.name }}</p>
-            <p class="price">&yen;{{ item.price }}</p>
-        </router-link></li>
-      </ul>
+      <transition name="fade">
+        <ul v-if="goods.length" class="goods-list">
+          <li v-for="item in goods" :key="item.id">
+          <router-link to="">
+              <img :src="item.picture" alt="">
+              <p class="name ellipsis">{{ item.name }}</p>
+              <p class="price">&yen;{{ item.price }}</p>
+          </router-link></li>
+        </ul>
+        <HomeSkeleton v-else bg="#f0f9f4"></HomeSkeleton>
+      </transition>
     </HomePanel>
   </div>
 </template>
@@ -20,9 +23,11 @@
 import { ref } from 'vue'
 import HomePanel from './home-panel.vue'
 import { findNew } from '@/api/home'
+
+import HomeSkeleton from './home-skeleton.vue'
 export default {
   name:'HomeNew',
-  components: { HomePanel },
+  components: { HomePanel,HomeSkeleton },
   setup() {
     const goods = ref([])
     findNew().then(data => {
@@ -38,6 +43,9 @@ export default {
 <style scoped lang='less'>
   @import '../../../assets/style/mixin.less';
   @import '../../../assets/style/variables.less';
+
+  
+
   .goods-list {
     display: flex;
     justify-content: space-between;
