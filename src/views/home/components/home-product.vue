@@ -10,7 +10,7 @@
       <div class="box">
         <RouterLink class="cover" :to="`/category/${cate.id}`">
           <img
-            :src="cate.picture"
+            v-lazy="cate.picture"
             alt=""
           />
           <strong class="label">

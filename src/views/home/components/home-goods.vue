@@ -2,7 +2,7 @@
   <div class="goods-item">
     <router-link :to="`/product/${goods.id}`" class="image">
       <img
-        :src="goods.picture"
+        v-lazy="goods.picture"
         alt=""
       />
     </router-link>
