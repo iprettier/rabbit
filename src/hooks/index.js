@@ -27,7 +27,9 @@ export const useLazyData = (apiFn) => {
                 // 停止观察
                 stop()    
             }
-        }
+        },
+        // 配置选项：相交的比例 大于 0 就触发
+        {threshold: 0}
     )
     return {target,result}
 }

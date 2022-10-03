@@ -9,7 +9,7 @@
       <transition name="fade">
         <ul class="list" :style="{transform:`translateX(${-index*1240}px)`}" v-if="brands.length">
           <li v-for="item in brands" :key="item.id">
-            <RouterLink to="/">
+            <RouterLink :to="`/product/${item.id}`">
               <img
                 :src="item.picture"
                 alt=""
