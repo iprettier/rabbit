@@ -37,9 +37,9 @@ export default {
     //     goods.value = data.result
     // })
 
-    const target = ref(null)
-    const result = useLazyData(target,findNew)
-
+    // const target = ref(null)
+    const {target,result} = useLazyData(findNew)
+    
     return { goods: result,target }
   }
 }
