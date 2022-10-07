@@ -21,14 +21,14 @@
         </ul>
       </div>
       <!-- 各个分类推荐商品 -->
-      <div class="ref-goods">
+      <div class="ref-goods" v-for="sub in subList" :key="sub.id">
         <div class="head">
-          <h3>-- 海鲜 --</h3>
+          <h3>{{sub.name}}</h3>
           <p class="tag">温暖柔软，品质之选</p>
-          <xtxMore />
+          <xtxMore :path="`/category/sub/${sub.id}`"/>
         </div>
         <div class="body">
-          <GoodsItem v-for="i in 5" :key="i"></GoodsItem>
+          <GoodsItem v-for="goods in sub.goods" :key="goods.id" :goods="goods"></GoodsItem>
         </div>
       </div>
     </div>
@@ -42,6 +42,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
 import GoodsItem from './components/goods-item.vue'
+import { findTopCategory } from '@/api/category'
 
 
 export default {
@@ -57,9 +58,6 @@ export default {
       
       const store = useStore()
       const route = useRoute()
-
-
-      console.log(route.params.id);
       
 
       const topCategory = computed(() => {
@@ -75,9 +73,22 @@ export default {
 
         return cate
       })
+      
+      // 获取各个子类目
+      const subList = ref([])
+      const getSubList = () => {
+        findTopCategory(route.params.id).then(data => {
+          subList.value = data.result.children
+        })
+      }
 
+      watch(()=>route.params.id,(newVal,oldVal) => {
+        console.log(newVal);
+        console.log(oldVal);
+        newVal && getSubList()
+      },{immediate: true})
 
-      return { slideers,topCategory }
+      return { slideers,topCategory,subList }
     },
 }
 </script>
