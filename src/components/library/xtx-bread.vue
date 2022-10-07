@@ -1,6 +1,4 @@
 
-
-
 <script>
 // import { render } from 'vue';
 import {h} from 'vue'

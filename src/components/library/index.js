@@ -7,22 +7,46 @@
 // Vue2.0 插件的语法要素：
 // 导出一个 有 install 方法的对象，默认传入了 app 应用实例，在 Vue 的基础上扩展东西
 
-import XtxSkeleton from './xtx-skeleton'
-import XtxCarousel from './xtx-carousel'
-import XtxMore from './xtx-more'
-import XtxBread from './xtx-bread'
-import XtxBreadItem from './xtx-bread-item'
+// import XtxSkeleton from './xtx-skeleton'
+// import XtxCarousel from './xtx-carousel'
+// import XtxMore from './xtx-more'
+// import XtxBread from './xtx-bread'
+// import XtxBreadItem from './xtx-bread-item'
+
+// context 方法有三个参数
+  /**
+   *  目录路径，是否加载子目录，匹配的正则表达式
+   */
+
+const impoFn = require.context('./',false,/\.vue$/)
+console.log(impoFn.keys());
 
 import defaultImg from '@/assets/images/200.png'
+
+
 export default {
   install (app) {
     // 在 app 上进行扩展,app 提供 component 方法，directive 方法
     // 如果想挂载原型，app.config.globalProperties
-    app.component(XtxSkeleton.name, XtxSkeleton)
-    app.component(XtxCarousel.name, XtxCarousel)
-    app.component(XtxMore.name,XtxMore)
-    app.component(XtxBread.name,XtxBread)
-    app.component(XtxBreadItem.name,XtxBreadItem)
+    // 全局注册组件
+    // 大致步骤
+    // 使用 require 提供的函数 context 加载某一个目录下的所有 .vue 后缀的文件
+    // 然后 context 函数会返回一个导入函数 importFn
+      // 它有一个属性 keys() 获取所有的文件路径
+    // 通过文件路径数组，通过遍历数组，在使用 impoFn 根据路径导入组件对象
+    // 遍历的同时进行全局注册即可
+
+    // app.component(XtxSkeleton.name, XtxSkeleton)
+    // app.component(XtxCarousel.name, XtxCarousel)
+    // app.component(XtxMore.name,XtxMore)
+    // app.component(XtxBread.name,XtxBread)
+    // app.component(XtxBreadItem.name,XtxBreadItem)
+
+    // 根据 keys 批量注册
+    impoFn.keys().forEach(path => {
+      const component = impoFn(path).default
+      app.component(component.name,component)
+    });
     // 定义指令
     defineDirective(app)
   }
