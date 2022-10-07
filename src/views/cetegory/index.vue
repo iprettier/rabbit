@@ -21,6 +21,16 @@
         </ul>
       </div>
       <!-- 各个分类推荐商品 -->
+      <div class="ref-goods">
+        <div class="head">
+          <h3>-- 海鲜 --</h3>
+          <p class="tag">温暖柔软，品质之选</p>
+          <xtxMore />
+        </div>
+        <div class="body">
+          <GoodsItem v-for="i in 5" :key="i"></GoodsItem>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -30,8 +40,13 @@ import {computed, ref, watch} from 'vue'
 import { findBanner } from '@/api/home'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+
+import GoodsItem from './components/goods-item.vue'
+
+
 export default {
     name: "TopCategory",
+    components: { GoodsItem },
     setup() {
       // 轮播图
       const slideers = ref([])
@@ -106,4 +121,31 @@ export default {
     }
   }
 }
+
+// 推荐商品
+.ref-goods {
+    background-color: #fff;
+    margin-top: 20px;
+    position: relative;
+    .head {
+      .xtx-more {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+      .tag {
+        text-align: center;
+        color: #999;
+        font-size: 20px;
+        position: relative;
+        top: -20px;
+      }
+    }
+    .body {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      padding: 0 65px 30px;
+    }
+  } 
 </style>
