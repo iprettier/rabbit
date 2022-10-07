@@ -4,22 +4,106 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem :to="{path:'/'}">首页</XtxBreadItem>
-        <XtxBreadItem to="/category/100500">电器</XtxBreadItem>
-        <XtxBreadItem>空调</XtxBreadItem>
+        <XtxBreadItem>{{topCategory.name}}</XtxBreadItem>
       </XtxBread>
       <!-- 轮播图 -->
+      <XtxCarousel style="height: 500px;" :slideers="slideers"></XtxCarousel>
       <!-- 全部分类 -->
+      <div class="sub-list">
+        <h3>全部分类</h3>
+        <ul>
+          <li v-for="item in topCategory.children" :key="item.id">
+            <a href="">
+              <img :src="item.picture" alt="">
+              <p>{{item.name}}</p>
+            </a>
+          </li>
+        </ul>
+      </div>
       <!-- 各个分类推荐商品 -->
     </div>
   </div>
 </template>
 
 <script>
+import {computed, ref, watch} from 'vue'
+import { findBanner } from '@/api/home'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 export default {
     name: "TopCategory",
     setup() {
+      // 轮播图
+      const slideers = ref([])
+      findBanner().then(data => {
+        slideers.value = data.result
+      })
+      // 面包屑+ 所有子分类
+      
+      const store = useStore()
+      const route = useRoute()
+
+
+      console.log(route.params.id);
+      
+
+      const topCategory = computed(() => {
+        // 当前的顶级分类 = 根据路由上的 id 去 vuex 中 查找\\
+        let cate = {}
+        const item =  store.state.category.list.find(item => {
+          return item.id === route.params.id
+        }) 
+
+        if (item) {
+          cate = item
+        }
+
+        return cate
+      })
+
+
+      return { slideers,topCategory }
     },
 }
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang='less'>
+@import '../../assets/style/variables.less';
+.top-category {
+  h3 {
+    font-size: 28px;
+    color: #666;
+    font-weight: normal;
+    text-align: center;
+    line-height: 100px;
+  }
+  .sub-list {
+    margin-top: 20px;
+    background-color: #fff;
+    ul {
+      display: flex;
+      padding: 0 32px;
+      flex-wrap: wrap;
+      li {
+        width: 168px;
+        height: 160px;
+        a {
+          text-align: center;
+          display: block;
+          font-size: 16px;
+          img {
+            width: 100px;
+            height: 100px;
+          }
+          p {
+            line-height: 40px;
+          }
+          &:hover {
+            color: @xtxColor;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
