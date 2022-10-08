@@ -85,7 +85,13 @@ export default {
       }
 
       watch(()=>route.params.id,(newVal,oldVal) => {
-        newVal && getSubList()
+        // newVal && getSubList()
+        // console.log(route.path);
+        
+        if(newVal && `/category/${newVal}` == route.path) {
+          console.log('你好啊你好啊你好啊');
+          getSubList()
+        }
       },{immediate: true})
 
       return { slideers,topCategory,subList }

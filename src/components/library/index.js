@@ -19,7 +19,6 @@
    */
 
 const impoFn = require.context('./',false,/\.vue$/)
-console.log(impoFn.keys());
 
 import defaultImg from '@/assets/images/200.png'
 
