@@ -4,7 +4,9 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem :to="{path:'/'}">首页</XtxBreadItem>
-        <XtxBreadItem>{{topCategory.name}}</XtxBreadItem>
+        <transition name="fade-right">
+          <XtxBreadItem :key="topCategory.id" :is="topCategory.id">{{topCategory.name}}</XtxBreadItem>
+        </transition>
       </XtxBread>
       <!-- 轮播图 -->
       <XtxCarousel style="height: 500px;" :slideers="slideers"></XtxCarousel>
@@ -83,8 +85,6 @@ export default {
       }
 
       watch(()=>route.params.id,(newVal,oldVal) => {
-        console.log(newVal);
-        console.log(oldVal);
         newVal && getSubList()
       },{immediate: true})
 
@@ -95,6 +95,26 @@ export default {
 
 <style scoped lang='less'>
 @import '../../assets/style/variables.less';
+
+
+// 进入 从右侧 20px 位移，透明度伪 0
+.fade-right {
+  &-enter-to,
+  &-leave-from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s;
+  }
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
 .top-category {
   h3 {
     font-size: 28px;
