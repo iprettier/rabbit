@@ -12,8 +12,8 @@
       </a>
     </div>
     <div class="check">
-      <XtxCheckbox v-model="sortParams.inventory">仅显示有货商品</XtxCheckbox>
-      <XtxCheckbox v-model="sortParams.onlyDiscount">仅显示特惠商品</XtxCheckbox>
+      <XtxCheckbox v-model="sortParams.inventory" @change="changeCheck">仅显示有货商品</XtxCheckbox>
+      <XtxCheckbox v-model="sortParams.onlyDiscount" @change="changeCheck">仅显示特惠商品</XtxCheckbox>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
 import { reactive } from 'vue-demi'
 export default {
   name:'SubSort',
-  setup() {
+  setup(props,{emit}) {
     // 实现交互
     // 明确交互所产生的数据
     const sortParams = reactive({
@@ -35,6 +35,7 @@ export default {
 
     // 绑定按钮的点击事件 修改排序字段和排序方式
     const changeSort = (sortField) => {
+
       if(sortField === 'price') {
         sortParams.sortField = sortField
         // 处理排序
@@ -52,10 +53,15 @@ export default {
         sortParams.sortField = sortField
         sortParams.sortMethod = null
       }
-      
+      // 触发 sort-change 的自定义事件
+      emit('sort-change',sortParams)
+    }
+
+    const changeCheck = () => {
+      emit('sort-change',sortParams)
     }
     // 返回模板使用 
-    return { sortParams,changeSort }
+    return { sortParams,changeSort,changeCheck }
   }
 }
 </script>

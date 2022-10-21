@@ -6,6 +6,7 @@
         <!-- <a href="javascript:;"></a> -->
         <a
         :class="{active:item.id === filterData.brands.selectedBrand}"
+        @click="changeBrand(item.id)"
           href="javascript:;"
           v-for="item in filterData.brands"
           :key="item.id"
@@ -18,6 +19,7 @@
       <div class="body">
         <a 
         :class="{active:sub.id === item.selectedAttr}"
+        @click="changeProp(item,sub.id)"
           href="javascript:;" v-for="sub in item.properties" :key="sub.id">{{
           sub.name
         }}</a>
@@ -40,7 +42,7 @@ import { useRoute } from "vue-router";
 import { findSubCategoryFilter } from "@/api/category";
 export default {
   name: "SubFilter",
-  setup() {
+  setup(props,{emit}) {
     // 监听二级类目 id 变化 ，获取筛选数据
     const filterData = ref({});
     const route = useRoute();
@@ -69,7 +71,36 @@ export default {
       },
       { immediate: true }
     );
-    return { filterData, filterLoading };
+    // 获取筛选参数的函数
+    const getFilterParams = () => {
+      const obj = {brandId: null,attrs: []}
+      // 品牌
+      obj.brandId = filterData.value.brands.selectedBrand
+      // 销售属性
+      filterData.value.saleProperties.forEach((item) => {
+        if(item.selectedAttr) {
+          const prop = item.properties.find(prop => prop.id == item.selectedAttr)
+
+          obj.attrs.push({groupName: item.name,perprotyName:prop.name})
+        }
+      })
+      if(obj.attrs.length === 0) obj.attrs = null
+      return obj
+    }
+    // 记录当前选择的品牌
+    const changeBrand = (brandId) => {
+      if(filterData.value.brands.selectedBrand === brandId) return
+        filterData.value.brands.selectedBrand = brandId
+        emit('filter-change',getFilterParams())
+    }
+
+    // 记录你选择的销售属性
+    const changeProp = (item,propId) => {
+      if(item.selectedAttr === propId) return
+      item.selectedAttr = propId
+      emit('filter-change',getFilterParams())
+    }
+    return { filterData, filterLoading,changeBrand,changeProp };
   },
 };
 </script>
