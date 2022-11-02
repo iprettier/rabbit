@@ -13,10 +13,11 @@
         <!-- 商品信息左边 -->
         <div class="goods-info-left">
           <GoodsImage :images="goods.mainPictures"></GoodsImage>
+          <GoodsSales></GoodsSales>
         </div>
         <!-- 商品信息右边 -->
         <div class="goods-info-right">
-
+          <GoodName :goods="goods"></GoodName>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -41,10 +42,12 @@ import { findGoods } from "@/api/goods";
 import { nextTick, ref, watch } from "vue";
 import GoodsRelevant from "./components/goods-relevant.vue";
 import GoodsImage from './components/goods-image.vue'
+import GoodsSales from "./components/goods-sales.vue"
+import GoodName from "./components/goods-name.vue"
 import { useRoute } from "vue-router";
 export default {
   name: "XtxGoodsPage",
-  components: { GoodsRelevant,GoodsImage },
+  components: { GoodsRelevant,GoodsImage,GoodsSales,GoodName  },
   setup() {
     // 获取商品详情，渲染面包屑
     const goods = useGoods();
