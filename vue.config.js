@@ -1,6 +1,8 @@
 const { defineConfig } = require('@vue/cli-service')
+const { options } = require('less')
 
 const path = require('path')
+const { config } = require('process')
 // const path = require('path')
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -13,5 +15,5 @@ module.exports = defineConfig({
       ]
     }
   },
-  lintOnSave: false
+  lintOnSave: false,
 })
