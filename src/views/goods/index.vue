@@ -18,6 +18,8 @@
         <!-- 商品信息右边 -->
         <div class="goods-info-right">
           <GoodName :goods="goods"></GoodName>
+          <!-- SKU 组件 -->
+          <GoodsSku :goods="goods"></GoodsSku>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -43,11 +45,12 @@ import { nextTick, ref, watch } from "vue";
 import GoodsRelevant from "./components/goods-relevant.vue";
 import GoodsImage from './components/goods-image.vue'
 import GoodsSales from "./components/goods-sales.vue"
-import GoodName from "./components/goods-name.vue"
+import GoodName from "./components/goods-name.vue" 
+import GoodsSku from "./components/goods-sku.vue";
 import { useRoute } from "vue-router";
 export default {
   name: "XtxGoodsPage",
-  components: { GoodsRelevant,GoodsImage,GoodsSales,GoodName  },
+  components: { GoodsRelevant,GoodsImage,GoodsSales,GoodName, GoodsSku  },
   setup() {
     // 获取商品详情，渲染面包屑
     const goods = useGoods();
